@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
-
 import { Row, Col } from "react-grid-system";
 import { CssEditor } from "./components/CssEditor.component";
 import { HtmlEditor } from "./components/HtmlEditor.component";
 import { JsEditor } from "./components/JsEditor.component";
 import { Preview } from "./components/Preview.component";
+
+import SplitterLayout from "react-splitter-layout";
+import "react-splitter-layout/lib/index.css";
 
 function App() {
   const [html, setHtml] = useState("");
@@ -37,20 +39,29 @@ function App() {
   return (
     <div className="App">
       <Row>
-        <Col className="editors">
-          <Row className="editor__container">
-            <HtmlEditor setHtml={setHtml} />
-          </Row>
-          <Row className="editor__container">
-            <CssEditor setCss={setCss} />
-          </Row>
-          <Row className="editor__container">
-            <JsEditor setJs={setJs} />
-          </Row>
-        </Col>
-        <Col className="preview__container">
-          <Preview srcDoc={srcDoc} />
-        </Col>
+        <SplitterLayout
+          primaryIndex={0}
+          primaryMinSize={400}
+          secondaryMinSize={100}
+        >
+          <Col className="editors">
+            <Row className="editor__container">
+              <HtmlEditor setHtml={setHtml} />
+            </Row>
+            <Row className="editor__container">
+              <CssEditor setCss={setCss} />
+            </Row>
+            <Row className="editor__container">
+              <JsEditor setJs={setJs} />
+            </Row>
+          </Col>
+          <Col
+            style={{ height: window.innerHeight - 16 + "px" }}
+            className="preview__container"
+          >
+            <Preview srcDoc={srcDoc} />
+          </Col>
+        </SplitterLayout>
       </Row>
     </div>
   );
